@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    //https://github.com/johnrengelman/shadow
+    //This will let you create a "one-file jar", to build the app, go to Gradle -> shadow -> shadowJar
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+//Don't forget to specify the main class here if you rename it! Without this it won't be possible to run the JAR.
+//Ignore the IDEA warning, it is bugged.
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'program'
+        )
+    }
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://mvn.mchv.eu/repository/mchv/" }
+}
+
+dependencies {
+    implementation 'it.tdlight:tdlight-java:1.7.6.5'
+    /*
+    Add more natives if you need them:
+    List of natives: https://github.com/tdlight-team/tdlight-java/#natives-inclusion
+    The versions of them are here: https://github.com/tdlight-team/tdlight-java/releases/
+    !!! update both the natives, and tdlight itself to the newest version that's available !!!
+    */
+    implementation 'it.tdlight:tdlight-natives-windows-amd64:3.3.74'
+    implementation 'it.tdlight:tdlight-natives-linux-amd64:3.3.74'
+    //I recommend using the logger, if you don't want to, then replace the LOGGER.info, etc. with System.out.print....
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.14.1'
+}
+
+test {
+    useJUnitPlatform()
+}
